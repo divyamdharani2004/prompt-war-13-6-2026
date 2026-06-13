@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace — Your exam-season wellness companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🌿</span>
+        <div>
+          <h1>MindSpace</h1>
+          <p class="tagline">A companion for the long exam road</p>
+        </div>
+      </div>
+      <div id="mode-pill" class="pill">connecting…</div>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="App sections">
+      <button class="tab active" data-tab="journal" role="tab" id="tab-journal" aria-controls="journal" aria-selected="true">Journal</button>
+      <button class="tab" data-tab="companion" role="tab" id="tab-companion" aria-controls="companion" aria-selected="false" tabindex="-1">Companion</button>
+      <button class="tab" data-tab="breathe" role="tab" id="tab-breathe" aria-controls="breathe" aria-selected="false" tabindex="-1">Breathe</button>
+      <button class="tab" data-tab="insights" role="tab" id="tab-insights" aria-controls="insights" aria-selected="false" tabindex="-1">Insights</button>
+    </nav>
+
+    <main id="main">
+      <!-- JOURNAL ------------------------------------------------------ -->
+      <section id="journal" class="panel active" role="tabpanel" aria-labelledby="tab-journal" tabindex="0">
+        <div class="card">
+          <h2>How is today sitting with you?</h2>
+          <p class="sub">
+            Write freely — no one is grading this. The more honest, the more your companion can spot the patterns
+            you might not see yourself.
+          </p>
+
+          <label class="field-label" for="exam">Which journey are you on?</label>
+          <select id="exam">
+            <option value="">Choose your exam (optional)</option>
+            <option>NEET</option>
+            <option>JEE</option>
+            <option>CUET</option>
+            <option>CAT</option>
+            <option>GATE</option>
+            <option>UPSC</option>
+            <option>Boards</option>
+            <option>Other</option>
+          </select>
+
+          <label class="field-label" id="mood-label">Where's your mood right now?</label>
+          <div id="mood" class="mood-row" role="radiogroup" aria-labelledby="mood-label">
+            <button type="button" data-mood="1" role="radio" aria-checked="false" aria-label="Really low" title="Really low">😞</button>
+            <button type="button" data-mood="2" role="radio" aria-checked="false" aria-label="Low" title="Low">😟</button>
+            <button type="button" data-mood="3" role="radio" aria-checked="true" class="selected" aria-label="Okay" title="Okay">😐</button>
+            <button type="button" data-mood="4" role="radio" aria-checked="false" aria-label="Good" title="Good">🙂</button>
+            <button type="button" data-mood="5" role="radio" aria-checked="false" aria-label="Great" title="Great">😄</button>
+          </div>
+
+          <label class="field-label" for="journal-text">Today's entry</label>
+          <textarea
+            id="journal-text"
+            rows="6"
+            placeholder="e.g. Another mock today and my rank dropped again. Everyone at coaching seems ahead and I'm running on 4 hours of sleep. I keep wondering if I'm wasting this year…"
+          ></textarea>
+
+          <button id="save-journal" class="btn-primary">Reflect with my companion</button>
+        </div>
+
+        <div id="analysis" class="card analysis hidden"></div>
+      </section>
+
+      <!-- COMPANION ---------------------------------------------------- -->
+      <section id="companion" class="panel" role="tabpanel" aria-labelledby="tab-companion" tabindex="0">
+        <div class="card chat-card">
+          <h2>Talk it through</h2>
+          <p class="sub">An always-available, judgement-free space. Say whatever's on your mind.</p>
+          <div id="chat-log" class="chat-log" role="log" aria-live="polite" aria-label="Conversation with your companion">
+            <div class="bubble bot">
+              Hi, I'm really glad you're here. Whatever today has been like — heavy, scattered, or just tiring —
+              you can put it down here. What's on your mind?
+            </div>
+          </div>
+          <form id="chat-form" class="chat-input">
+            <input id="chat-text" type="text" placeholder="Type a message…" autocomplete="off" />
+            <button class="btn-primary" type="submit">Send</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- BREATHE ------------------------------------------------------ -->
+      <section id="breathe" class="panel" role="tabpanel" aria-labelledby="tab-breathe" tabindex="0">
+        <div class="card">
+          <h2>A moment to reset</h2>
+          <p class="sub">
+            Tell your companion how you feel and it will shape a short, adaptive exercise for exactly this moment.
+          </p>
+          <label class="field-label" id="ex-mood-label">Mood right now</label>
+          <div id="ex-mood" class="mood-row" role="radiogroup" aria-labelledby="ex-mood-label">
+            <button type="button" data-mood="1" role="radio" aria-checked="false" aria-label="Really low">😞</button>
+            <button type="button" data-mood="2" role="radio" aria-checked="true" class="selected" aria-label="Low">😟</button>
+            <button type="button" data-mood="3" role="radio" aria-checked="false" aria-label="Okay">😐</button>
+            <button type="button" data-mood="4" role="radio" aria-checked="false" aria-label="Good">🙂</button>
+            <button type="button" data-mood="5" role="radio" aria-checked="false" aria-label="Great">😄</button>
+          </div>
+          <label class="field-label" for="ex-note">What's making it hard? (optional)</label>
+          <input id="ex-note" type="text" placeholder="e.g. can't focus, head is racing" />
+          <button id="get-exercise" class="btn-primary">Give me an exercise</button>
+          <div id="exercise" class="exercise hidden"></div>
+        </div>
+      </section>
+
+      <!-- INSIGHTS ----------------------------------------------------- -->
+      <section id="insights" class="panel" role="tabpanel" aria-labelledby="tab-insights" tabindex="0">
+        <div class="card">
+          <h2>Your patterns</h2>
+          <p class="sub">What your journaling reveals over time — the triggers and feelings that keep recurring.</p>
+          <div id="ai-summary" class="ai-summary hidden"></div>
+          <div id="insights-body" class="insights-body">
+            <p class="muted">No entries yet. Your patterns will appear here once you start journaling.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Crisis modal -->
+    <div id="crisis-modal" class="modal-overlay hidden">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="crisis-title" aria-describedby="crisis-message">
+        <h3 id="crisis-title">You matter — please reach out 💛</h3>
+        <p id="crisis-message"></p>
+        <ul id="crisis-helplines"></ul>
+        <p id="crisis-note" class="muted"></p>
+        <button id="crisis-close" class="btn-primary">I understand</button>
+      </div>
+    </div>
+
+    <!-- Polite live region for screen-reader status announcements -->
+    <div id="status" class="visually-hidden" role="status" aria-live="polite"></div>
+    <!-- Visible, assertive toast for errors -->
+    <div id="toast" class="toast hidden" role="alert" aria-live="assertive"></div>
+
+    <footer class="foot">
+      MindSpace is a supportive companion, not a substitute for professional care.
+      If you're in crisis, please contact a helpline or someone you trust.
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

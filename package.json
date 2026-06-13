@@ -1,0 +1,27 @@
+{
+  "name": "mindspace-wellness-tracker",
+  "version": "1.0.0",
+  "description": "MindSpace — a generative-AI wellness companion for students preparing for high-stakes exams (NEET, JEE, CUET, CAT, GATE, UPSC).",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "mental-health",
+    "wellness",
+    "journaling",
+    "students",
+    "generative-ai",
+    "claude"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
+    "compression": "^1.7.5",
+    "dotenv": "^17.0.0",
+    "express": "^5.0.0"
+  }
+}
