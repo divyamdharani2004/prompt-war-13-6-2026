@@ -120,7 +120,8 @@ wireMood("#ex-mood", "exMood");
       pill.textContent = "Demo mode";
       pill.className = "pill demo";
     } else {
-      pill.textContent = "Claude · live";
+      pill.textContent = d.provider === "openrouter" ? "Live · OpenRouter" : "Live · Claude";
+      pill.title = `Model: ${d.model}`;
       pill.className = "pill live";
     }
   } catch {
