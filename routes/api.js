@@ -1,5 +1,5 @@
 import express from "express";
-import { DEMO, MODEL } from "../lib/anthropic.js";
+import { DEMO, ACTIVE_MODEL, PROVIDER } from "../lib/provider.js";
 import { CHAT_HISTORY_WINDOW } from "../lib/config.js";
 import { screenForCrisis, CRISIS_RESOURCES } from "../lib/safety.js";
 import { addEntry, getInsights, sanitizeUserId } from "../lib/store.js";
@@ -20,7 +20,9 @@ function userOf(req) {
   return sanitizeUserId(req.get("x-user-id"));
 }
 
-router.get("/health", (_req, res) => res.json({ ok: true, demo: DEMO, model: MODEL }));
+router.get("/health", (_req, res) =>
+  res.json({ ok: true, demo: DEMO, provider: PROVIDER, model: ACTIVE_MODEL })
+);
 
 router.post("/journal", async (req, res) => {
   const { value, error } = validateJournal(req.body);

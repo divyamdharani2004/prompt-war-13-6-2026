@@ -34,12 +34,20 @@ npm start              # → http://localhost:3000
 npm test               # run the test suite (node:test, no extra deps)
 ```
 
-Enable real Claude responses by adding a key:
+Enable real AI responses by adding a key (`cp .env.example .env`, then `npm start`):
 
 ```bash
-cp .env.example .env   # PowerShell: Copy-Item .env.example .env
-# paste your ANTHROPIC_API_KEY into .env, then: npm start
+# Option A — OpenRouter (recommended: one key, many models incl. free tiers)
+OPENROUTER_API_KEY=sk-or-v1-...
+OPENROUTER_MODEL=anthropic/claude-3.5-sonnet   # or openai/gpt-4o-mini, or a :free model
+
+# Option B — Anthropic API direct
+ANTHROPIC_API_KEY=sk-ant-...
 ```
+
+**Provider precedence:** OpenRouter (if its key is set) → Anthropic → demo mode.
+Get an OpenRouter key at <https://openrouter.ai/keys> and pick any model from
+<https://openrouter.ai/models>.
 
 > **No API key? It still works.** MindSpace runs in **Demo Mode** with locally
 > simulated AI, so you can explore the full UX immediately. The badge top-right
@@ -64,7 +72,8 @@ vercel --prod          # production deploy
 Or connect the GitHub repo at [vercel.com/new](https://vercel.com/new) → it auto-deploys on push.
 
 **Set your key on Vercel:** Project → Settings → Environment Variables → add
-`ANTHROPIC_API_KEY`. Without it, the deployed app runs in demo mode (still fully usable).
+`OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`), or `ANTHROPIC_API_KEY`.
+Without any key, the deployed app runs in demo mode (still fully usable).
 
 > ⚠️ Serverless storage is **per-instance and ephemeral** — fine for a demo, but journal
 > history won't persist across cold starts or scale across instances. For durable
@@ -73,7 +82,9 @@ Or connect the GitHub repo at [vercel.com/new](https://vercel.com/new) → it au
 
 ## 🧠 How the AI is wired
 
-- **Model:** `claude-opus-4-8` with **adaptive thinking** for nuanced emotional reasoning.
+- **Provider-agnostic gateway** (`lib/provider.js`): one `complete()` call backed by
+  **OpenRouter** (OpenAI-compatible, any model) or the **Anthropic API** (adaptive thinking),
+  selected by which key is present — the rest of the app doesn't change.
 - **Structured outputs** (`output_config.format` + JSON schema) make every analysis,
   exercise, and summary response a guaranteed-valid object — no brittle parsing.
 - A single empathetic **system prompt** defines the persona and hard safety
