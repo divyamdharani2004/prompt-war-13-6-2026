@@ -48,6 +48,29 @@ cp .env.example .env   # PowerShell: Copy-Item .env.example .env
 
 ---
 
+## ▲ Deploy to Vercel
+
+The app is Vercel-ready. It runs as a **serverless function** (`api/index.js` exports
+the Express app) configured by `vercel.json`, and the store automatically writes to a
+**writable temp dir** on serverless (the project filesystem is read-only there), so
+saving an entry never crashes.
+
+```bash
+npm i -g vercel        # once
+vercel                 # preview deploy
+vercel --prod          # production deploy
+```
+
+Or connect the GitHub repo at [vercel.com/new](https://vercel.com/new) → it auto-deploys on push.
+
+**Set your key on Vercel:** Project → Settings → Environment Variables → add
+`ANTHROPIC_API_KEY`. Without it, the deployed app runs in demo mode (still fully usable).
+
+> ⚠️ Serverless storage is **per-instance and ephemeral** — fine for a demo, but journal
+> history won't persist across cold starts or scale across instances. For durable
+> production storage, swap `lib/store.js` for **Vercel KV / Postgres** (the interface is
+> unchanged: `loadEntries`, `addEntry`, `getInsights`).
+
 ## 🧠 How the AI is wired
 
 - **Model:** `claude-opus-4-8` with **adaptive thinking** for nuanced emotional reasoning.

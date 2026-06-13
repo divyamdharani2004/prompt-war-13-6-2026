@@ -17,6 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export function createApp() {
   const app = express();
   app.disable("x-powered-by");
+  app.set("trust proxy", 1); // behind Vercel/Proxy — use X-Forwarded-For for req.ip
 
   app.use(securityHeaders);
   app.use(compression()); // gzip JSON + asset responses
