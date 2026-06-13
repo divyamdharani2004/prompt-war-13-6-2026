@@ -1,11 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import {
-  computeInsights,
-  computeStreak,
-  computeMoodTrend,
-  computeTriggerImpact,
-} from "../lib/insights.js";
+import { computeInsights, computeStreak, computeMoodTrend, computeTriggerImpact } from "../lib/insights.js";
 
 function entry(date, mood, triggers = [], emotions = []) {
   return { createdAt: date, mood, analysis: { hidden_triggers: triggers, emotions } };
@@ -24,16 +19,12 @@ test("triggerImpact surfaces the most draining trigger first (lowest avg mood)",
 });
 
 test("moodTrend detects an improving streak", () => {
-  const entries = [1, 1, 2, 2, 4, 5].map((m, i) =>
-    entry(`2026-06-0${i + 1}T10:00:00Z`, m)
-  );
+  const entries = [1, 1, 2, 2, 4, 5].map((m, i) => entry(`2026-06-0${i + 1}T10:00:00Z`, m));
   assert.equal(computeMoodTrend(entries).label, "improving");
 });
 
 test("moodTrend detects a decline", () => {
-  const entries = [5, 5, 4, 2, 1, 1].map((m, i) =>
-    entry(`2026-06-0${i + 1}T10:00:00Z`, m)
-  );
+  const entries = [5, 5, 4, 2, 1, 1].map((m, i) => entry(`2026-06-0${i + 1}T10:00:00Z`, m));
   assert.equal(computeMoodTrend(entries).label, "declining");
 });
 

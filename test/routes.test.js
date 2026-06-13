@@ -40,7 +40,16 @@ test("health reports status and sets security headers", async () => {
   assert.equal(res.status, 200);
   assert.ok(res.headers.get("content-security-policy"));
   assert.equal(res.headers.get("x-frame-options"), "DENY");
+  assert.equal(res.headers.get("strict-transport-security"), "max-age=31536000; includeSubDomains");
+  assert.equal(res.headers.get("cross-origin-opener-policy"), "same-origin");
   assert.equal(res.headers.get("x-powered-by"), null);
+});
+
+test("unknown API route returns a structured 404", async () => {
+  const res = await get("/api/does-not-exist", "rt-alice");
+  assert.equal(res.status, 404);
+  const data = await res.json();
+  assert.equal(data.error, "Not found.");
 });
 
 test("journal rejects empty text with 400", async () => {

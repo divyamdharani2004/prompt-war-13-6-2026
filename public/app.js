@@ -7,7 +7,9 @@ const $$ = (sel) => document.querySelectorAll(sel);
 function getUserId() {
   let id = localStorage.getItem("mindspace_uid");
   if (!id) {
-    id = (crypto.randomUUID?.() || "u" + Date.now().toString(36) + Math.random().toString(36).slice(2)).replace(/-/g, "");
+    id = (
+      crypto.randomUUID?.() || "u" + Date.now().toString(36) + Math.random().toString(36).slice(2)
+    ).replace(/-/g, "");
     localStorage.setItem("mindspace_uid", id);
   }
   return id;

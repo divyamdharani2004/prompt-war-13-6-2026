@@ -1,5 +1,6 @@
 import express from "express";
 import { DEMO, MODEL } from "../lib/anthropic.js";
+import { CHAT_HISTORY_WINDOW } from "../lib/config.js";
 import { screenForCrisis, CRISIS_RESOURCES } from "../lib/safety.js";
 import { addEntry, getInsights, sanitizeUserId } from "../lib/store.js";
 import { computeInsights } from "../lib/insights.js";
@@ -54,7 +55,7 @@ router.post("/chat", async (req, res) => {
 
   const insights = await getInsights(userId, computeInsights);
   const contextNote = buildContextNote(insights);
-  const reply = await chatWithCompanion(value.messages.slice(-12), contextNote);
+  const reply = await chatWithCompanion(value.messages.slice(-CHAT_HISTORY_WINDOW), contextNote);
 
   res.json({ reply, crisis, resources: crisis ? CRISIS_RESOURCES : null });
 });

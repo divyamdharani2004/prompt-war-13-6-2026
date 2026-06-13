@@ -1,13 +1,19 @@
 {
   "name": "mindspace-wellness-tracker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MindSpace — a generative-AI wellness companion for students preparing for high-stakes exams (NEET, JEE, CUET, CAT, GATE, UPSC).",
   "type": "module",
   "main": "server.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "mental-health",
@@ -17,11 +23,22 @@
     "generative-ai",
     "claude"
   ],
+  "author": "Divyam Soni",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/divyamdharani2004/prompt-war-13-6-2026.git"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.70.0",
     "compression": "^1.7.5",
     "dotenv": "^17.0.0",
     "express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "prettier": "^3.3.0"
   }
 }

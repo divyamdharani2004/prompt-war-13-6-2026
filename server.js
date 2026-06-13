@@ -1,8 +1,7 @@
 import "dotenv/config";
 import { createApp } from "./app.js";
 import { MODEL, DEMO } from "./lib/anthropic.js";
-
-const PORT = process.env.PORT || 3000;
+import { PORT } from "./lib/config.js";
 
 createApp().listen(PORT, () => {
   console.log(`\n🌿 MindSpace running at http://localhost:${PORT}`);

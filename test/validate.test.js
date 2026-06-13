@@ -1,6 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { clampMood, validateJournal, validateChat, validateExercise, clean, LIMITS } from "../lib/validate.js";
+import {
+  clampMood,
+  validateJournal,
+  validateChat,
+  validateExercise,
+  clean,
+  LIMITS,
+} from "../lib/validate.js";
 
 test("clean strips control chars but keeps newline and tab", () => {
   assert.equal(clean("hi\x00\x07there"), "hithere");

@@ -13,16 +13,16 @@ Built on **Claude (`claude-opus-4-8`)** via the official Anthropic SDK.
 
 ## ✨ What it does
 
-| Feature | How AI is used |
-|---|---|
-| **Daily Journaling + Mood Log** | Student writes freely and picks a mood; Claude analyses the entry. |
-| **Hidden-trigger detection** | Claude surfaces *underlying* triggers (rank pressure, sleep collapse, family expectations) — not keywords — plus the core emotions. |
-| **Trigger ↔ mood correlation** | The Insights engine computes the **average mood on days each trigger appears**, ranking what *actually drains you most* — the pattern a standard tracker can't see. |
-| **Mood trend + streak** | Detects whether mood is improving/declining over the recent window, and your journaling streak. |
-| **AI pattern synthesis** | Claude writes a short, honest narrative of your dominant pattern + one focus for the week. |
-| **Personalised companion** | A judgement-free chat; the companion is silently briefed on your recurring triggers so replies are contextual. |
-| **Adaptive mindfulness** | Claude generates a short grounding/breathing exercise shaped to your *current* mood and struggle. |
-| **Safety net** | A deterministic crisis screen *plus* model risk-flagging always surfaces India helplines (Tele-MANAS, KIRAN, iCall, Vandrevala). |
+| Feature                         | How AI is used                                                                                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Daily Journaling + Mood Log** | Student writes freely and picks a mood; Claude analyses the entry.                                                                                                  |
+| **Hidden-trigger detection**    | Claude surfaces _underlying_ triggers (rank pressure, sleep collapse, family expectations) — not keywords — plus the core emotions.                                 |
+| **Trigger ↔ mood correlation**  | The Insights engine computes the **average mood on days each trigger appears**, ranking what _actually drains you most_ — the pattern a standard tracker can't see. |
+| **Mood trend + streak**         | Detects whether mood is improving/declining over the recent window, and your journaling streak.                                                                     |
+| **AI pattern synthesis**        | Claude writes a short, honest narrative of your dominant pattern + one focus for the week.                                                                          |
+| **Personalised companion**      | A judgement-free chat; the companion is silently briefed on your recurring triggers so replies are contextual.                                                      |
+| **Adaptive mindfulness**        | Claude generates a short grounding/breathing exercise shaped to your _current_ mood and struggle.                                                                   |
+| **Safety net**                  | A deterministic crisis screen _plus_ model risk-flagging always surfaces India helplines (Tele-MANAS, KIRAN, iCall, Vandrevala).                                    |
 
 ---
 
@@ -78,14 +78,22 @@ cp .env.example .env   # PowerShell: Copy-Item .env.example .env
 > Journals are sensitive mental-health data. For production, add real auth and
 > encryption at rest, and swap the file store for a database.
 
+## 🧹 Code quality
+
+- **Centralised config** (`lib/config.js`) — every tunable constant in one place, no magic numbers.
+- **JSDoc type definitions** (`lib/types.js`) for the core data shapes; key functions are annotated.
+- **ESLint** (flat config) + **Prettier** + **.editorconfig** with `lint` / `format` scripts.
+  `npx eslint .` passes clean.
+- Thin entrypoint (`server.js`) over a testable `createApp()` factory (`app.js`).
+
 ## 🧪 Testing
 
-`npm test` runs **26 tests** (Node's built-in runner, 0 extra deps): unit tests for
-the **crisis-detection regex** (incl. its deliberate over-flagging bias), **insight
-correlation/trend/streak math**, **input validation**, and **per-user store
+`npm test` runs **27 tests** on Node's built-in runner (no test-framework dependency):
+unit tests for the **crisis-detection regex** (incl. its deliberate over-flagging bias),
+**insight correlation/trend/streak math**, **input validation**, and **per-user store
 isolation/memoisation** — plus **end-to-end route tests** that boot the app on an
 ephemeral port and exercise every endpoint over HTTP (validation 400s, crisis
-flagging, isolation, security headers).
+flagging, isolation, security headers, structured 404s).
 
 ## ♿ Accessibility
 
@@ -104,6 +112,8 @@ server.js              Entrypoint: imports the app factory and listens
 app.js                 createApp() — builds the Express app (testable, no listen)
 routes/api.js          HTTP endpoints
 lib/
+  config.js            Centralised constants (model, limits, rate limits)
+  types.js             JSDoc type definitions (Entry, Analysis, Insights)
   anthropic.js         Claude client + demo-mode flag
   safety.js            Crisis detection + helpline resources  (unit-tested)
   prompts.js           Persona + JSON-output schemas
@@ -111,10 +121,11 @@ lib/
   demo.js              Locally-simulated AI responses
   insights.js          Trigger↔mood correlation, trend, streak  (unit-tested)
   validate.js          Input validation                          (unit-tested)
-  store.js             Per-user file store with in-memory cache
+  store.js             Per-user file store with in-memory cache   (unit-tested)
 middleware/security.js  CSP/headers + rate limiter
 public/                index.html · styles.css · app.js
-test/                  safety · insights · validate
+test/                  safety · insights · validate · store · routes (e2e)
+eslint.config.js · .prettierrc.json · .editorconfig
 data/<userId>.json     Per-user journal store (auto-created, git-ignored)
 ```
 
